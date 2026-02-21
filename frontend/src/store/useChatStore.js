@@ -10,6 +10,9 @@ export const useChatStore = create((set, get) => ({
   isUsersLoading: false,
   isMessagesLoading: false,
   chatMetadata: null,
+  isTyping: false,
+
+  setIsTyping: (isTyping) => set({ isTyping }),
 
   getUsers: async () => {
     set({ isUsersLoading: true });
@@ -138,12 +141,27 @@ export const useChatStore = create((set, get) => ({
         set((state) => ({ messages: [...state.messages, structuredMessage] }));
       }
     });
+
+    socket.on("userTyping", ({ senderId }) => {
+      // If the incoming typing event is from the currently selected user
+      if (selectedUser?._id === senderId) {
+        set({ isTyping: true });
+      }
+    });
+
+    socket.on("userStoppedTyping", ({ senderId }) => {
+      if (selectedUser?._id === senderId) {
+        set({ isTyping: false });
+      }
+    });
   },
 
   unsubscribeFromMessages: () => {
     const socket = useAuthStore.getState().socket;
     if (socket) {
       socket.off("newMessage");
+      socket.off("userTyping");
+      socket.off("userStoppedTyping");
     }
   },
 
