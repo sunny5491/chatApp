@@ -16,7 +16,8 @@ const ChatContainer = () => {
     subscribeToMessages,
     unsubscribeFromMessages,
     chatMetadata,
-    deleteMessage
+    deleteMessage,
+    isTyping
   } = useChatStore();
   const { authUser } = useAuthStore();
   const messageEndRef = useRef(null);
@@ -152,6 +153,21 @@ const ChatContainer = () => {
             </div>
           );
         })}
+
+        {isTyping && (
+          <div className="flex justify-start">
+            <div className="chat chat-start">
+              <div className="chat-image avatar">
+                <div className="w-10 h-10 rounded-full border">
+                  <img src={selectedUser.profilePic || "/avatar.png"} alt="profile pic" />
+                </div>
+              </div>
+              <div className="chat-bubble bg-base-200 text-base-content flex items-center gap-2">
+                <span className="loading loading-dots loading-sm"></span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <MessageInput />
