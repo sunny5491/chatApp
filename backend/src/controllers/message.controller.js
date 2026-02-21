@@ -295,3 +295,30 @@ export const deleteMessage = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
+
+export const searchMessages = async (req, res) => {
+    try {
+        const { userId: otherUserId } = req.params;
+        const myId = req.user._id;
+        const { q } = req.query;
+
+        if (!q || q.trim() === "") {
+            return res.status(400).json({ error: "Search query is required" });
+        }
+
+        const messages = await Message.find({
+            $or: [
+                { senderID: myId, receiverID: otherUserId },
+                { senderID: otherUserId, receiverID: myId }
+            ],
+            text: { $regex: q.trim(), $options: "i" }
+        })
+        .sort({ createdAt: -1 })
+        .limit(50);
+
+        res.status(200).json({ results: messages, total: messages.length });
+    } catch (error) {
+        console.error("Error in searchMessages controller:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
