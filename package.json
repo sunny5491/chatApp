@@ -11,11 +11,11 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/QuickHarsh/PrivTalk.git"
+    "url": "git+https://github.com/sunny5491/chatApp.git"
   },
   "bugs": {
-    "url": "https://github.com/QuickHarsh/PrivTalk/issues"
+    "url": "https://github.com/sunny5491/chatApp/issues"
   },
-  "homepage": "https://github.com/QuickHarsh/PrivTalk#readme",
+  "homepage": "https://github.com/sunny5491/chatApp#readme",
   "description": ""
 }
