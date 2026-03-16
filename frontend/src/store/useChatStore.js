@@ -20,7 +20,7 @@ export const useChatStore = create((set, get) => ({
       const res = await axiosInstance.get("/messages/users");
       set({ users: res.data });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || error.message);
     } finally {
       set({ isUsersLoading: false });
     }
@@ -112,7 +112,6 @@ export const useChatStore = create((set, get) => ({
     socket.off("newMessage");
 
     socket.on("newMessage", (newMessage) => {
-      console.log("New message received:", newMessage);
       
       // Only add message if it's from/to the selected user and current user
       const isRelevantMessage = 
@@ -137,7 +136,6 @@ export const useChatStore = create((set, get) => ({
           }
         };
 
-        console.log("Adding structured message:", structuredMessage);
         set((state) => ({ messages: [...state.messages, structuredMessage] }));
       }
     });

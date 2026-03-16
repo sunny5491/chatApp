@@ -49,10 +49,10 @@ export const getMessages = async (req,res) => {
         const { userId: userToChatId } = req.params;
         const myId = req.user._id;
 
-        console.log("Fetching messages between:", {
-            myId,
-            userToChatId
-        });
+        // console.log("Fetching messages between:", {
+        //     myId,
+        //     userToChatId
+        // });
 
         // Get both users' details
         const [currentUser, otherUser] = await Promise.all([
@@ -83,7 +83,7 @@ export const getMessages = async (req,res) => {
             model: User
         });
 
-        console.log(`Found ${messages.length} messages`);
+        // console.log(`Found ${messages.length} messages`);
 
         // Mark unread messages as read
         await Message.updateMany(
@@ -154,15 +154,15 @@ export const sendMessage = async (req,res) => {
         const { userId: receiverID } = req.params;
         const senderID = req.user._id;
 
-        console.log("Sending message with data:", {
-            text,
-            image: image ? "image present" : "no image",
-            video: video ? "video present" : "no video",
-            fileType,
-            fileName,
-            receiverID,
-            senderID
-        });
+        // console.log("Sending message with data:", {
+        //     text,
+        //     image: image ? "image present" : "no image",
+        //     video: video ? "video present" : "no video",
+        //     fileType,
+        //     fileName,
+        //     receiverID,
+        //     senderID
+        // });
 
         // Verify that the user is not sending a message to themselves
         if (senderID === receiverID) {
@@ -213,18 +213,17 @@ export const sendMessage = async (req,res) => {
             fileName
         });
 
-        console.log("Attempting to save message:", {
-            senderID,
-            receiverID,
-            text,
-            image: imageUrl ? "image present" : "no image",
-            video: videoUrl ? "video present" : "no video",
-            fileType: newMessage.fileType
-        });
+        // console.log("Attempting to save message:", {
+        //     senderID,
+        //     receiverID,
+        //     text,
+        //     image: imageUrl ? "image present" : "no image",
+        //     video: videoUrl ? "video present" : "no video",
+        //     fileType: newMessage.fileType
+        // });
 
         try {
             const savedMessage = await newMessage.save();
-            console.log("Message saved successfully:", savedMessage._id);
 
             // Only emit to the specific receiver
             const receiverSocketId = getReceiverSocketId(receiverID);
