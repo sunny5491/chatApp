@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @source "../index.html";
-@source "./";
+@source "./**/*.{js,ts,jsx,tsx}";
 @plugin "daisyui" {
   themes:
     "light", "dark", "cupcake", "bumblebee", "emerald", "corporate",
